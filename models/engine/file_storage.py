@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This module defines the FileStorage class."""
 import json
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -31,6 +30,7 @@ class FileStorage:
 
     def reload(self):
         """Deserialize the JSON file to __objects."""
+        from models.base_model import BaseModel
         try:
             with open(FileStorage.__file_path, "r") as f:
                 obj_dict = json.load(f)
