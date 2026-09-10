@@ -39,6 +39,17 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model_dict["updated_at"], str)
         self.assertEqual(model_dict["id"], model.id)
 
+    def test_init_from_dict(self):
+        """Test recreation of instance from dictionary."""
+        model = BaseModel()
+        model.name = "Test"
+        model_dict = model.to_dict()
+        new_model = BaseModel(**model_dict)
+        self.assertEqual(model.id, new_model.id)
+        self.assertEqual(model.created_at, new_model.created_at)
+        self.assertEqual(model.updated_at, new_model.updated_at)
+        self.assertFalse(model is new_model)
+
 
 if __name__ == "__main__":
     unittest.main()

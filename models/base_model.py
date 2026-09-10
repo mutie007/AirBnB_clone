@@ -7,11 +7,24 @@ from datetime import datetime
 class BaseModel:
     """Base class for all models in the AirBnB clone project."""
 
-    def __init__(self):
-        """Initialize a new BaseModel instance."""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        """Initialize a new BaseModel instance.
+
+        Args:
+            *args: Unused.
+            **kwargs: Dictionary of attributes to recreate an instance.
+        """
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+                if key in ("created_at", "updated_at"):
+                    value = datetime.fromisoformat(value)
+                setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """Return the string representation of the BaseModel instance."""
