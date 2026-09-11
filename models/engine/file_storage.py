@@ -31,11 +31,29 @@ class FileStorage:
     def reload(self):
         """Deserialize the JSON file to __objects."""
         from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.place import Place
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Place": Place,
+            "Amenity": Amenity,
+            "Review": Review
+        }
+
         try:
             with open(FileStorage.__file_path, "r") as f:
                 obj_dict = json.load(f)
             for key, value in obj_dict.items():
-                FileStorage.__objects[key] = BaseModel(**value)
+                cls_name = value.get("__class__")
+                if cls_name in classes:
+                    FileStorage.__objects[key] = classes[cls_name](**value)
         except FileNotFoundError:
             pass
-
