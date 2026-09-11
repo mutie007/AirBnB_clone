@@ -38,3 +38,4 @@ class FileStorage:
                 FileStorage.__objects[key] = BaseModel(**value)
         except FileNotFoundError:
             pass
+
