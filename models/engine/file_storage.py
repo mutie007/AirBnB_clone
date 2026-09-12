@@ -4,7 +4,9 @@ import json
 
 
 class FileStorage:
-    """Serializes instances to a JSON file and deserializes JSON file to instances."""
+    """Serializes instances to a JSON file and
+    deserializes JSON file to instances.
+    """
 
     __file_path = "file.json"
     __objects = {}
@@ -33,7 +35,7 @@ class FileStorage:
                 obj_dict = json.load(f)
             from models.base_model import BaseModel
             for key, value in obj_dict.items():
-                if value["__class__"] == "BaseModel":
+                if value.get("__class__") == "BaseModel":
                     FileStorage.__objects[key] = BaseModel(**value)
         except FileNotFoundError:
             pass
