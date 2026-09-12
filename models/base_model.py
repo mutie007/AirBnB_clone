@@ -3,6 +3,8 @@
 import uuid
 from datetime import datetime
 
+TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
+
 
 class BaseModel:
     """Base class for all models in the AirBnB clone project."""
@@ -19,7 +21,7 @@ class BaseModel:
                 if key == "__class__":
                     continue
                 if key in ("created_at", "updated_at"):
-                    value = datetime.fromisoformat(value)
+                    value = datetime.strptime(value, TIME_FORMAT)
                 setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
@@ -43,6 +45,6 @@ class BaseModel:
         """Return a dictionary containing all keys/values of the instance."""
         new_dict = self.__dict__.copy()
         new_dict["__class__"] = self.__class__.__name__
-        new_dict["created_at"] = self.created_at.isoformat()
-        new_dict["updated_at"] = self.updated_at.isoformat()
+        new_dict["created_at"] = self.created_at.strftime(TIME_FORMAT)
+        new_dict["updated_at"] = self.updated_at.strftime(TIME_FORMAT)
         return new_dict
