@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """FileStorage class for serializing and deserializing instances."""
 import json
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -32,9 +31,9 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
                 obj_dict = json.load(f)
+            from models.base_model import BaseModel
             for key, value in obj_dict.items():
-                class_name = value["__class__"]
-                if class_name == "BaseModel":
+                if value["__class__"] == "BaseModel":
                     FileStorage.__objects[key] = BaseModel(**value)
         except FileNotFoundError:
             pass
